@@ -546,10 +546,23 @@
             </div><!--footerwrapper-->
         </div><!-- end of footer -->
 
+        <div class="floatingbutton">
+            <ul>
+                <li><a href="https://www.swinburne.edu.my/study/connect-with-us/email-us-your-enquiry.php" target="_blank" class="buttonrotate90"><span class="icon"><i class="fa fa-envelope-o"></i></span> Enquiry</a></li><li><a href="https://www.swinburne.edu.my/contact" target="_self" class="buttonrotate90"><span class="icon"><i class="fa fa-phone-square"></i></span> Contact us</a></li><li><a href="https://www.swinburne.edu.my/current-students/services-wellbeing/accommodations" target="_self" class="buttonrotate90"><span class="icon"><i class="fa fa-wpforms"></i></span> Apply Now</a></li>		
+                <script type="text/javascript">
+                    jQuery(document).ready( function() {
+                        var liheight = 0;
+                        jQuery('.floatingbutton ul li').each(function() {
+                            liheight += jQuery(this).width();
+                        });
+                        finalfloatingultop = liheight + 200;
+                        jQuery('.floatingbutton ul').css({"top":""+finalfloatingultop+"px"});				
+                        jQuery('.floatingbutton ul').css({"left":"20px"});
+                    });
+                </script>
 
-
-
-
+            </ul>
+        </div>
 
 
 
