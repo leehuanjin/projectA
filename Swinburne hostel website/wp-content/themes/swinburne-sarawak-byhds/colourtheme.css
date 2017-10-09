@@ -127,14 +127,14 @@ a:hover {
 }
 
 .btnsearch, .btnsearch:active {
-    background-color: #ffbf00;
-    border: 1px solid #e5ab00 !important;
+    background-color: #DC143C;
+    border: 1px solid #DC143C !important;
     color: #051c2a;
     border-bottom: 1px solid #9ba4a9;
 }
 
 .btnsearch:hover {
-    background-color:  #ffcb33;
+    background-color:  #FF0000;
 }
 
 #sidebar {
