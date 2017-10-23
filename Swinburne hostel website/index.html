@@ -157,6 +157,48 @@
                         <li><a href="https://www.swinburne.edu.my/category/library" target="_self">Library</a></li><li><a href="https://www.swinburne.edu.my/current-students" target="_self">Current Students</a></li><li><a href="https://www.swinburne.edu.my/contact" target="_self">Contact us</a></li><li><a href="https://blackboard.swinburne.edu.my/" target="_self">Blackboard Login</a></li><li></li>	        
                     </ul>
 
+                    <script type="text/javascript">
+
+                        jQuery(document).ready( function() {  
+                            jQuery("#headersearchform .btnsearch").on('click', function(){	
+                                var selectedaction = jQuery("#headersearchform .searchselect").find('option:selected').val();
+                                switch (selectedaction) {
+                                    case "courses":
+                                        jQuery("#headersearchform .wpsearchinput").val("");
+                                        break;						
+
+                                }	
+                                jQuery("#headersearchform").submit();
+                            }); 
+
+                            jQuery("#headersearchform .searchselect").on('change',function() {
+                                var action = jQuery(this).val();
+                                switch (action) {
+                                    case "website":
+                                        jQuery("#headersearchform").attr("action", "http://www.swinburne.edu.my/cse/");
+                                        break;
+
+                                    case "staff":
+                                        jQuery("#headersearchform").attr("action", "http://wwww.swinburne.edu.my/staff/");
+                                        break;
+
+                                    case "courses":
+                                        jQuery("#headersearchform").attr("action", "https://www.swinburne.edu.my/study/find-a-course");
+                                        break;
+
+                                    default:
+                                        jQuery("#headersearchformmobile").attr("action", "http://www.swinburne.edu.my/cse/");	
+                                }				
+                            });
+
+                            jQuery('#headersearchform .searchinput').on('change', function(){
+                                var qvar = jQuery(this).val();
+                            });	 								
+
+
+                        }); 
+                    </script>
+
 
                     <div id="headerright">
                         <form method="get" id="headersearchform" action="https://www.swinburne.edu.my/" class="form-inline">
@@ -221,8 +263,6 @@
         </div>
 
         <div class="wrapper">
-
-
 
             <div class="container homecontent">
                 <div class="col-md-12" >
@@ -478,7 +518,7 @@
                             <div class="col-sm-12 col-md-6">
 
                                 <div class="footerbanner">
-                                  
+
                                     <small><p>Swinburne is ranked as one of the world’s most international universities for student population diversity and international collaboration.</p>
                                     </small> 
 
