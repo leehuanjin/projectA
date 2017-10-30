@@ -217,7 +217,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 </tr>
 </table>
 	</div>
-	<div class="wrapper">
+	<div class="container">
         <form class="form-signin" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">       
             <h2 class="form-signin-heading">Please login</h2>
             <div class="form-group <?php echo (!empty($username_err)) ? 'has-error' : ''; ?>">
