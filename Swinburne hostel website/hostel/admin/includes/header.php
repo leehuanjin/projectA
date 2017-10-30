@@ -5,7 +5,7 @@
             <div class="container ">
                 <div id="logo">
                     <a href="https://www.swinburne.edu.my/" rel="home">
-                        <img src="../wp-content/uploads/Swinburne-Malaysia-Logo2.png" alt="Swinburne University, Malaysia">
+                        <img src="../../wp-content/uploads/Swinburne-Malaysia-Logo2.png" alt="Swinburne University, Malaysia">
                     </a>
 
 
