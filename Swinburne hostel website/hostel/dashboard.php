@@ -95,6 +95,13 @@ check_login();
 
 			</div>
 		</div>
+        
+        
+            <div class="content-wrapper">
+                <?php include('includes/footer.php');?>
+            </div>
+          
+        
 	</div>
 
 	<!-- Loading Scripts -->

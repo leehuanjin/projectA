@@ -183,10 +183,12 @@ Last update : &nbsp; <?php echo $row->updateDate;?>
 							</div>
 						</div>
 					</div>
+        
+                <div class="content-wrapper">
+                <?php include('includes/footer.php');?>
+            </div>
 				</div> 	
-			</div>
-		</div>
-	</div>
+
 	<script src="js/jquery.min.js"></script>
 	<script src="js/bootstrap-select.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
