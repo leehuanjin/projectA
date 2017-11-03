@@ -1155,22 +1155,6 @@ select {
 	font-size: 12px;
 }
 
-input[type="checkbox"] {
-    background: transparent;
-	-webkit-border-radius: 0 !important;
- 	-moz-border-radius: 0 !important;
-     border-radius: 0 !important;
-    border: 0;
-   -webkit-appearance: none;
-	margin-right: 10px;
-	padding: 10px !important;		
-}
-
-
-input[type=checkbox]:checked{
-   background: url(images/iconthick.png) no-repeat center center;	
-	
-}
 
 
 
