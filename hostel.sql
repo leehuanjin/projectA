@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2017 at 11:00 AM
+-- Generation Time: Nov 03, 2017 at 12:20 PM
 -- Server version: 10.1.26-MariaDB
 -- PHP Version: 7.1.9
 
@@ -42,7 +42,7 @@ CREATE TABLE `admin` (
 --
 
 INSERT INTO `admin` (`id`, `username`, `email`, `password`, `reg_date`, `updation_date`) VALUES
-(1, 'admin', 'admin@gmail.com', 'admin', '2016-04-04 20:31:45', '2017-11-03');
+(1, 'admin', 'admin@admin.com', 'admin', '2016-04-04 20:31:45', '2017-11-03');
 
 -- --------------------------------------------------------
 
@@ -95,7 +95,6 @@ CREATE TABLE `registration` (
   `roomno` int(11) NOT NULL,
   `seater` int(11) NOT NULL,
   `feespm` int(11) NOT NULL,
-  `foodstatus` int(11) NOT NULL,
   `stayfrom` date NOT NULL,
   `duration` int(11) NOT NULL,
   `course` varchar(500) NOT NULL,
@@ -126,8 +125,8 @@ CREATE TABLE `registration` (
 -- Dumping data for table `registration`
 --
 
-INSERT INTO `registration` (`id`, `roomno`, `seater`, `feespm`, `foodstatus`, `stayfrom`, `duration`, `course`, `studentid`, `firstName`, `middleName`, `lastName`, `gender`, `contactno`, `emailid`, `egycontactno`, `guardianName`, `guardianRelation`, `guardianContactno`, `corresAddress`, `corresCIty`, `corresState`, `corresPincode`, `pmntAddress`, `pmntCity`, `pmnatetState`, `pmntPincode`, `postingDate`, `updationDate`) VALUES
-(12, 1, 1, 550, 0, '2017-11-09', 4, 'Bachelor  of Technology', 100070579, 'hi', 'hi', 'hi', 'male', 0, '2@gmail.com', 0, 'asd', 'asd', 0, 'asd', 'asd', 'Arunachal Pradesh', 0, 'asd', 'asd', 'Arunachal Pradesh', 0, '2017-11-03 09:36:22', '');
+INSERT INTO `registration` (`id`, `roomno`, `seater`, `feespm`, `stayfrom`, `duration`, `course`, `studentid`, `firstName`, `middleName`, `lastName`, `gender`, `contactno`, `emailid`, `egycontactno`, `guardianName`, `guardianRelation`, `guardianContactno`, `corresAddress`, `corresCIty`, `corresState`, `corresPincode`, `pmntAddress`, `pmntCity`, `pmnatetState`, `pmntPincode`, `postingDate`, `updationDate`) VALUES
+(15, 1, 1, 550, '2017-11-03', 3, 'Bachelor Of commerce ', 100070579, 'hi', 'hi', 'hi', 'male', 0, '2@gmail.com', 0, 'asd', 'ads', 0, 'ad', 'asd', 'Negeri Sembilan', 0, 'ad', 'asd', 'Negeri Sembilan', 0, '2017-11-03 11:19:45', '');
 
 -- --------------------------------------------------------
 
@@ -151,7 +150,9 @@ INSERT INTO `rooms` (`id`, `seater`, `room_no`, `fees`, `posting_date`) VALUES
 (28, 1, 1, 550, '2017-11-03 09:28:49'),
 (29, 2, 2, 3131, '2017-11-03 09:28:56'),
 (30, 1, 3, 333, '2017-11-03 09:29:08'),
-(31, 2, 4, 333, '2017-11-03 09:29:31');
+(31, 2, 4, 333, '2017-11-03 09:29:31'),
+(35, 1, 123123, 33, '2017-11-03 11:12:57'),
+(36, 2, 123123123, 3123, '2017-11-03 11:13:08');
 
 -- --------------------------------------------------------
 
@@ -217,7 +218,21 @@ INSERT INTO `userlog` (`id`, `userId`, `userEmail`, `userIp`, `city`, `country`,
 (8, 10, 'test@gmail.com', 0x3a3a31, '', '', '2017-11-02 10:40:13'),
 (9, 21, '2@gmail.com', 0x3a3a31, '', '', '2017-11-03 08:05:53'),
 (10, 22, '2@gmail.com', 0x3a3a31, '', '', '2017-11-03 09:35:27'),
-(11, 22, '2@gmail.com', 0x3a3a31, '', '', '2017-11-03 09:54:18');
+(11, 22, '2@gmail.com', 0x3a3a31, '', '', '2017-11-03 09:54:18'),
+(12, 22, '2@gmail.com', 0x3a3a31, '', '', '2017-11-03 10:03:00'),
+(13, 22, '2@gmail.com', 0x3a3a31, '', '', '2017-11-03 10:08:00'),
+(14, 22, '2@gmail.com', 0x3a3a31, '', '', '2017-11-03 10:10:54'),
+(15, 22, '2@gmail.com', 0x3a3a31, '', '', '2017-11-03 10:12:04'),
+(16, 22, '2@gmail.com', 0x3a3a31, '', '', '2017-11-03 10:28:32'),
+(17, 22, '2@gmail.com', 0x3a3a31, '', '', '2017-11-03 10:29:20'),
+(18, 22, '2@gmail.com', 0x3a3a31, '', '', '2017-11-03 10:29:31'),
+(19, 22, '2@gmail.com', 0x3a3a31, '', '', '2017-11-03 10:44:38'),
+(20, 24, '3@gmail.com', 0x3a3a31, '', '', '2017-11-03 10:47:08'),
+(21, 22, '2@gmail.com', 0x3a3a31, '', '', '2017-11-03 10:57:11'),
+(22, 24, '3@gmail.com', 0x3a3a31, '', '', '2017-11-03 10:59:14'),
+(23, 24, '3@gmail.com', 0x3a3a31, '', '', '2017-11-03 11:05:17'),
+(24, 24, '3@gmail.com', 0x3a3a31, '', '', '2017-11-03 11:13:20'),
+(25, 22, '2@gmail.com', 0x3a3a31, '', '', '2017-11-03 11:14:31');
 
 -- --------------------------------------------------------
 
@@ -246,10 +261,8 @@ CREATE TABLE `userregistration` (
 
 INSERT INTO `userregistration` (`id`, `studentid`, `firstName`, `middleName`, `lastName`, `gender`, `contactNo`, `email`, `password`, `regDate`, `updationDate`, `passUdateDate`) VALUES
 (10, '108061211', 'Anuj', 'test', 'kumar', 'male', 8467067344, 'test@gmail.com', 'Test@123', '2016-06-22 04:21:33', '23-06-2016 11:04:15', '22-06-2016 05:16:49'),
-(19, '102355', 'rahul', 'kumar', 'Singh', 'male', 6786786786, 'rahul@gmail.com', '6786786786', '2016-06-26 16:33:36', '', ''),
-(20, '586952', 'Ajay', '', 'kumar', 'male', 8596185625, 'ajay@gmail.com', '8596185625', '2016-06-26 16:40:07', '', ''),
-(22, '100070579', 'hi', 'hi', 'hi', 'male', 0, '2@gmail.com', '2', '2017-11-03 09:35:21', '', ''),
-(23, '1000705079', 'hi', 'hi', 'hi', 'male', 0, '2@gmail.com', 'hi', '2017-11-03 09:40:02', '', '');
+(22, '100070579', 'hi', 'hi', 'hi', 'male', 0, '2@gmail.com', '2', '2017-11-03 09:35:21', '03-11-2017 03:43:54', '03-11-2017 04:03:51'),
+(24, '12312', 'we', 'qwe', 'ewqe', 'female', 123, '3@gmail.com', '3', '2017-11-03 10:47:04', '', '');
 
 --
 -- Indexes for dumped tables
@@ -317,13 +330,13 @@ ALTER TABLE `courses`
 -- AUTO_INCREMENT for table `registration`
 --
 ALTER TABLE `registration`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=37;
 
 --
 -- AUTO_INCREMENT for table `states`
@@ -335,13 +348,13 @@ ALTER TABLE `states`
 -- AUTO_INCREMENT for table `userlog`
 --
 ALTER TABLE `userlog`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `userregistration`
 --
 ALTER TABLE `userregistration`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
