@@ -12,6 +12,7 @@
         <li><a href="room-details.php"><i class="fa fa-file-o"></i>Room Details</a></li>
         <li><a href="access-log.php"><i class="fa fa-file-o"></i>Access log</a></li>
         <li><a href="Room_Transfer.php"><i class="fa fa-file-o"></i>Room Transfer</a></li>
+        <li><a href="checkout.php"><i class="fa fa-file-o"></i>Check Out</a></li>
 
         <?php } else { ?>
 
