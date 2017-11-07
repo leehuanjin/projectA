@@ -94,8 +94,6 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
             <?php include('includes/sidebar.php');?>
             <div class="content-wrapper">
                 <div class="container-fluid">
-
-                    <h1 class="reader">Swinburne University</h1>
                     <div id="top_navigation"></div>
                     <div class="page_positioning">
                         <div id="content" class="no_small">
