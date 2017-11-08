@@ -2,6 +2,7 @@
 session_start();
 include('includes/config.php');
 include('includes/checklogin.php');
+include('PHPMailer/PHPMailerAutoload.php');
 check_login();
 //code for registration
 if(isset($_POST['submit']))
@@ -13,13 +14,13 @@ if(isset($_POST['submit']))
     $stayfrom=$_POST['stayf'];
     $duration=$_POST['duration'];
     $course=$_POST['course'];
-    $studentid=$_POST['studentid'];
-    $fname=$_POST['fname'];
-    $mname=$_POST['mname'];
-    $lname=$_POST['lname'];
-    $gender=$_POST['gender'];
-    $contactno=$_POST['contact'];
-    $emailid=$_POST['email'];
+    //$studentid=$_POST['studentid'];
+    //$fname=$_POST['fname'];
+    //$mname=$_POST['mname'];
+    //$lname=$_POST['lname'];
+    //$gender=$_POST['gender'];
+    //$contactno=$_POST['contact'];
+    //$emailid=$_POST['email'];
     $emcntno=$_POST['econtact'];
     $gurname=$_POST['gname'];
     $gurrelation=$_POST['grelation'];
@@ -37,6 +38,41 @@ if(isset($_POST['submit']))
     $rc=$stmt->bind_param('iiisisissssisississsisssi',$roomno,$seater,$feespm,$stayfrom,$duration,$course,$studentid,$fname,$mname,$lname,$gender,$contactno,$emailid,$emcntno,$gurname,$gurrelation,$gurcntno,$caddress,$ccity,$cstate,$cpincode,$paddress,$pcity,$pstate,$ppincode);
     $stmt->execute();
     echo"<script>alert('Student Succssfully register');</script>";
+    
+    
+    
+    $mail = new PHPMailer;
+
+    $mail->isSMTP();                                   // Set mailer to use SMTP
+    $mail->Host = 'smtp.gmail.com';                    // Specify main and backup SMTP servers
+    $mail->SMTPAuth = true;                            // Enable SMTP authentication
+    $mail->Username = 'samuelo0otiong1996@gmail.com';          // SMTP username
+    $mail->Password = 'stck1996'; // SMTP password
+    $mail->SMTPSecure = 'tls';                         // Enable TLS encryption, `ssl` also accepted
+    $mail->Port = 587;                                 // TCP port to connect to
+
+    $mail->setFrom('samuelo0otiong1996@gmail.com', 'Samuel');
+    $mail->addReplyTo('samuelo0otiong1996@gmail.com', 'Samuel');
+    $mail->addAddress('samuel_tiong@hotmail.com');   // Add a recipient
+    //$mail->addCC('cc@example.com');
+    //$mail->addBCC('bcc@example.com');
+
+    $mail->isHTML(true);  // Set email format to HTML
+
+    $bodyContent = '<h1>How to Send Email using PHP in Localhost by Sammy</h1>';
+    $bodyContent .= '<p>hello</b></p>';
+    $bodyContent .= "You have received a new message. ".
+        " Here are the details:\n Room: $roomno \n ";
+
+    $mail->Subject = 'Email from Localhost by Sammy';
+    $mail->Body    = $bodyContent;
+
+    if(!$mail->send()) {
+        echo 'Message could not be sent.';
+        echo 'Mailer Error: ' . $mail->ErrorInfo;
+    } else {
+        echo 'Message has been sent';
+    }
 }
 ?>
 
