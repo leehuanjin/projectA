@@ -109,7 +109,7 @@ Last update : &nbsp; <?php echo $row->updateDate;?>
 <div class="form-group">
 <label class="col-sm-2 control-label"> Student ID : </label>
 <div class="col-sm-8">
-<input type="text" name="studentid" id="studentid"  class="form-control" required="required" value="<?php echo $row->studentId;?>" >
+<input type="text" name="studentid" id="studentid"  class="form-control" required="required" value="<?php echo $row->studentid;?>" >
 </div>
 </div>
 
