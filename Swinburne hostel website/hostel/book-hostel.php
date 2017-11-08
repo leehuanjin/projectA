@@ -193,7 +193,7 @@ if(isset($_POST['submit']))
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Seater</label>
+                                                    <label class="col-sm-2 control-label">Room type 1-single / 2- twin</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="seater" id="seater"  class="form-control"  >
                                                     </div>
@@ -392,7 +392,7 @@ if(isset($_POST['submit']))
                                                 </div>							
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Pincode : </label>
+                                                    <label class="col-sm-2 control-label">Postcode : </label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="pincode" id="pincode"  class="form-control" required="required">
                                                     </div>
@@ -443,7 +443,7 @@ if(isset($_POST['submit']))
                                                 </div>							
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Pincode : </label>
+                                                    <label class="col-sm-2 control-label">Postcode : </label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="ppincode" id="ppincode"  class="form-control" required="required">
                                                     </div>
