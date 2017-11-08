@@ -94,6 +94,8 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
             <?php include('includes/sidebar.php');?>
             <div class="content-wrapper">
                 <div class="container-fluid">
+
+
                     <div id="top_navigation"></div>
                     <div class="page_positioning">
                         <div id="content" class="no_small">
@@ -104,7 +106,80 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
 
                             <p class="title">&nbsp;</p>
                             <form action="checkout.asp?sType=message&amp;action=send" method="post" name="CheckoutForm" id="CheckoutForm" onsubmit="return checkEmpty();">
+                                <table class="Form_Table" border="1" width="660" cellspacing="0">
+                                    <tr><h3>FACILTIES PROVIDED (Retruend Condition)</h3></tr>
+                                    <tr>
+                                        <th>No</th>
+                                        <th>Item</th> 
+                                        <th>Condition <br> O=OK <br> F=Need Fixing <br> NA=Not Available</th>
+                                    </tr>
+                                    <tr>
+                                        <td>1</td>
+                                        <td>Bed</td>
+                                        <td><input type="text" name="Bed" style="background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="100" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>2</td>
+                                        <td>Clean Mattress with fitted cover</td>
+                                        <td><input type="text" name="Mattress" style="background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="100" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>3</td>
+                                        <td>Study Table</td>
+                                        <td><input type="text" name="Table" style="background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="100" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>4</td>
+                                        <td>Book Shelf</td>
+                                        <td><input type="text" name="Bookshelf" style="background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="100" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>5</td>
+                                        <td>Chair</td>
+                                        <td><input type="text" name="Chair" style="background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="100" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>6</td>
+                                        <td>Wardrobe</td>
+                                        <td><input type="text" name="Wardrobe" style="background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="100" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>7</td>
+                                        <td>Venetian Blind(for non AC room only)</td>
+                                        <td><input type="text" name="Blind" style="background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="100" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>8</td>
+                                        <td>Curtain(for AC Room only)</td>
+                                        <td><input type="text" name="Curtain" style="background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="100" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>9</td>
+                                        <td>Fan</td>
+                                        <td><input type="text" name="Fan" style="background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="100" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>10</td>
+                                        <td>Air-Conditioner(for AC room only)</td>
+                                        <td><input type="text" name="Fan" style="background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="100" /></td>
+                                    </tr>
+                                    <tr>
+                                        <td>11</td>
+                                        <td>Others</td>
+                                        <td><input type="text" name="Others" style="background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="100" /></td>
+                                    </tr>
+
+
+
+
+                                </table>
+                                <br>
+                                <br>
+
+
+
                                 <table class="Form_Table" border="1" width="600" cellspacing="0">
+                                    <tr><h3>ROOM CHECKLIST</h3></tr>
                                     <tr>
                                         <td width="160" class="content_black1">Student Name</td>
                                         <td width="440" colspan="5" class="content_black1"><input type="text" name="FullName" style="width:450px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="100" /></td>
@@ -147,11 +222,15 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
                                         <td width="60" class="content_black1"><center> Room No</center></td>
                                         <td width="60" class="content_black1"><input type="text" name="RoomNo" style="width:60px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="3" onkeyup="filterNonNumeric(this)" /></td>
                                         <td width="125" class="content_black1"><center>
-                                            Tenancy End Date
+                                            Key / Acess Card Returned Date 
                                             </center></td>
-                                        <td width="90" class="content_black1"><input type="text" name="TenancyEnd" style="width:90px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" readonly="readonly" />
+                                        <td width="90" class="content_black1"><input type="text" name="KeyReturnedDate" style="width:90px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" readonly="readonly" />
                                             <a href="javascript:cal1.popup();"><img src="img/cal.gif" name="cal_tenancy" id="cal_tenancy" width="16" height="16" border="0" alt="Click Here to Pick up the date" /></a></td>
                                     </tr>
+
+
+
+
                                     <tr>
                                         <td class="content_black1"><b>I wish to</b></td>
                                         <td colspan="5" class="content_black1">
@@ -314,7 +393,7 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
                                             </table></td>
                                     </tr>
                                     <tr>
-                                        <td colspan="3" class="content_black1"><b>Check Out / Departure Date</b> &nbsp;
+                                        <td colspan="3" class="content_black1"><b>Check Out Date</b> &nbsp;
                                             <input type="text" name="CheckoutDate" style="width:80px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" readonly="readonly" />
                                             <a href="javascript:cal2.popup();"><img src="img/cal.gif" width="16" height="16" border="0" alt="Click Here to Pick up the date" /></a></td>
                                         <td colspan="3" class="content_black1"><b>Check Out Time</b> &nbsp;
@@ -369,12 +448,17 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
                                 <!-- // create calendar object(s) just after form tag closed
                                     // specify form element as the only parameter (document.forms['formname'].elements['inputname']);
                                     // note: you can have as many calendar objects as you need for your application
-                                    var cal1 = new calendar2(document.forms['CheckoutForm'].elements['TenancyEnd']);
+
+                                    var cal1 = new calendar2(document.forms['CheckoutForm'].elements['KeyReturnedDate']);
                                 cal1.year_scroll = false;
                                 cal1.time_comp = false;
+
                                 var cal2 = new calendar2(document.forms['CheckoutForm'].elements['CheckoutDate']);
                                 cal2.year_scroll = false;
                                 cal2.time_comp = false;
+
+
+
                                 //-->
                             </script>
 
