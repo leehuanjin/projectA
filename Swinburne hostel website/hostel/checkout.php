@@ -4,6 +4,45 @@ include('includes/config.php');
 include('includes/checklogin.php');
 check_login();
 date_default_timezone_set('Asia/Kuala_Lumpur');
+
+
+
+if(isset($_POST['submit']))
+{
+
+    $aid=$_SESSION['id'];
+    $ret="select * from userregistration where id=?";
+    $stmt= $mysqli->prepare($ret) ;
+    $stmt->bind_param('i',$aid);
+    $stmt->execute() ;//ok
+    $res=$stmt->get_result();
+    //$cnt=1;
+    $row=$res->fetch_object();
+
+
+
+    $studentid=$row->studentid;
+    $CheckoutStatus="1";
+    $CheckinStatus="0";
+    $CheckoutDate = $_POST['CheckoutDate'];
+
+
+
+    $query = "update registration SET CheckoutStatus = '$CheckoutStatus', CheckinStatus = '$CheckinStatus',  CheckoutDate='$CheckoutDate'  WHERE studentid = '$studentid' ";
+    $stmt = $mysqli->prepare($query);
+    $stmt->execute();
+
+
+
+    echo"<script>alert('You have sucessfully CHECKED OUT! please kindly refer to your e-mail');</script>";
+}
+
+
+
+
+
+
+
 ?>
 <!doctype html>
 <html lang="en" class="no-js">
@@ -37,19 +76,11 @@ date_default_timezone_set('Asia/Kuala_Lumpur');
         <meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
         <title>Room Transfer Request Form</title>
 
-        <script language="JavaScript1.1" type="text/javascript">
-            function submitForm(value) 
-            {	if ( value == "staff" ) { document.SearchGroup.action = "/staff/indexlist.asp" }
-             else{ document.SearchGroup.action = "http://www.swinburne.edu.my/cse_result.htm" };
-             document.SearchGroup.submit();
-            };
-            // -->
-        </script>
 
 
 
         <script language="JavaScript" type="text/javascript" src="Checkout.js"></script>
-        <script language="JavaScript" src="calendar2.js"></script>  
+
         <!--<link media="only screen and (max-device-width: 480px)" 
 href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
         <!--YB
@@ -105,7 +136,29 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
                             </h1>
 
                             <p class="title">&nbsp;</p>
-                            <form action="checkout.asp?sType=message&amp;action=send" method="post" name="CheckoutForm" id="CheckoutForm" onsubmit="return checkEmpty();">
+                            <form action="" method="post" name="CheckoutForm" id="CheckoutForm" onsubmit="return checkEmpty();">
+
+                                <?php
+                                $aid=$_SESSION['id'];
+                                $ret="select * from registration where id=?";
+                                $stmt= $mysqli->prepare($ret) ;
+                                $stmt->bind_param('i',$aid);
+                                $stmt->execute() ;//ok
+                                $res=$stmt->get_result();
+                                //$cnt=1;
+                                $row=$res->fetch_object();
+                                
+                                if($row['CheckoutStatus'] == true)
+                                { ?>
+                                <h3 style="color: red" align="left">You are alraedy CHECK OUT!</h3>
+                                <?php }
+                                else{
+                                    echo "";
+                                }			
+                                ?>	
+
+                    
+             
                                 <table class="Form_Table" border="1" width="660" cellspacing="0">
                                     <tr><h3>FACILTIES PROVIDED (Retruend Condition)</h3></tr>
                                     <tr>
@@ -178,24 +231,37 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
 
 
 
-                                <table class="Form_Table" border="1" width="600" cellspacing="0">
+                                <table class="Form_Table" border="1" width="650" cellspacing="0">
                                     <tr><h3>ROOM CHECKLIST</h3></tr>
+                                    <?php	
+                                    $aid=$_SESSION['id'];
+                                    $ret="select * from userregistration where id=?";
+                                    $stmt= $mysqli->prepare($ret) ;
+                                    $stmt->bind_param('i',$aid);
+                                    $stmt->execute() ;//ok
+                                    $res=$stmt->get_result();
+                                    //$cnt=1;
+                                    while($row=$res->fetch_object())
+                                    {
+                                    ?>
                                     <tr>
                                         <td width="160" class="content_black1">Student Name</td>
-                                        <td width="440" colspan="5" class="content_black1"><input type="text" name="FullName" style="width:450px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="100" /></td>
+                                        <td width="440" colspan="5" class="content_black1"><input type="text" name="FullName" style="width:450px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="100" value="<?php echo $row->firstName;?>" readonly    /></td>
                                     </tr>
                                     <tr>
                                         <td width="160" class="content_black1">Student ID</td>
-                                        <td width="90" class="content_black1"><input type="text" name="StudID" style="width:80px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="9" onkeyup="displayStudEmail(this)" /></td>
+                                        <td width="90" class="content_black1"><input type="text" name="StudID" style="width:80px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="9" onkeyup="displayStudEmail(this)" value="<?php echo $row->studentid;?>" readonly /></td>
+
                                         <td width="65" class="content_black1"><center>
                                             Contact No
                                             </center></td>
-                                        <td width="285" colspan="3" class="content_black1"><input type="text" name="ContactNo" style="width:282px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="30" onkeyup="filterNonContactNo(this)" /></td>
+                                        <td width="285" colspan="3" class="content_black1"><input type="text" name="ContactNo" style="width:282px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="30" onkeyup="filterNonContactNo(this)" value="<?php echo $row->contactNo;?>" readonly/></td>
                                     </tr>
                                     <tr>
                                         <td class="content_black1">Personal E-mail Address</td>
-                                        <td colspan="5" class="content_black1"><input type="text" name="Email" style="width:450px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="100" /></td>
+                                        <td colspan="5" class="content_black1"><input type="text" name="Email" style="width:450px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="100" value="<?php echo $row->email;?>" readonly /></td>
                                     </tr>
+                                    <?php } ?>
                                     <tr>
                                         <td class="content_black1">Location</td>
                                         <td colspan="5" class="content_black1">
@@ -221,11 +287,12 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
                                         <td width="60" class="content_black1"><input type="text" name="House_Flat" style="width:80px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="4" /></td>
                                         <td width="60" class="content_black1"><center> Room No</center></td>
                                         <td width="60" class="content_black1"><input type="text" name="RoomNo" style="width:60px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="3" onkeyup="filterNonNumeric(this)" /></td>
-                                        <td width="125" class="content_black1"><center>
+                                        <td width="75" class="content_black1"><center>
                                             Key / Acess Card Returned Date 
                                             </center></td>
-                                        <td width="90" class="content_black1"><input type="text" name="KeyReturnedDate" style="width:90px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" readonly="readonly" />
-                                            <a href="javascript:cal1.popup();"><img src="img/cal.gif" name="cal_tenancy" id="cal_tenancy" width="16" height="16" border="0" alt="Click Here to Pick up the date" /></a></td>
+                                        <td width="90" class="content_black1">
+                                            <input type="date" name="KeyReturnedDate" id="KeyReturnedDate"  style="width:115px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);">
+                                        </td>
                                     </tr>
 
 
@@ -394,8 +461,8 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
                                     </tr>
                                     <tr>
                                         <td colspan="3" class="content_black1"><b>Check Out Date</b> &nbsp;
-                                            <input type="text" name="CheckoutDate" style="width:80px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" readonly="readonly" />
-                                            <a href="javascript:cal2.popup();"><img src="img/cal.gif" width="16" height="16" border="0" alt="Click Here to Pick up the date" /></a></td>
+                                            <input type="date" name="CheckoutDate" style="width:150px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);"  />
+                                        </td>
                                         <td colspan="3" class="content_black1"><b>Check Out Time</b> &nbsp;
                                             <select name="CheckoutTime" style="background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);">
                                                 <option value=""> </option>
@@ -422,7 +489,7 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
 
                                         <td colspan="3" class="content_black1">
                                             Date &nbsp;
-                                            <input type="text" name="Submission_Date" style="width:80px" value="<?php echo date('d/m/Y');?>" readonly="readonly" /></td>
+                                            <input type="text" name="Submission_Date" style="width:80px" value="<?php echo date('Y/m/d');?>" readonly="readonly" /></td>
                                     </tr>
                                 </table>
                                 <input type="hidden" name="Location_field" value="" />
@@ -436,7 +503,7 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
 
                                     <tr>
                                         <td><p align="center">
-                                            <input type="submit" value="Submit" name="B1" />
+                                            <input type="submit" value="Submit" name="submit" />
                                             &nbsp;
                                             <input type="reset" value="Reset" name="B2" />
                                             </p></td>
@@ -444,23 +511,7 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
                                 </table>
                             </form>
 
-                            <script language="JavaScript">
-                                <!-- // create calendar object(s) just after form tag closed
-                                    // specify form element as the only parameter (document.forms['formname'].elements['inputname']);
-                                    // note: you can have as many calendar objects as you need for your application
 
-                                    var cal1 = new calendar2(document.forms['CheckoutForm'].elements['KeyReturnedDate']);
-                                cal1.year_scroll = false;
-                                cal1.time_comp = false;
-
-                                var cal2 = new calendar2(document.forms['CheckoutForm'].elements['CheckoutDate']);
-                                cal2.year_scroll = false;
-                                cal2.time_comp = false;
-
-
-
-                                //-->
-                            </script>
 
                         </div>
 
