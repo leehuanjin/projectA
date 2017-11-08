@@ -339,6 +339,12 @@ function checkEmpty()
      return false;
     }
 
+    if (document.CheckoutForm.CheckinDate.value=='')
+    {   alert('You MUST fill in your CheckinDate.');
+     document.CheckoutForm.CheckinDate.focus();
+     pass=false;
+     return false;
+    }
 
 
 
