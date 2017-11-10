@@ -61,12 +61,13 @@ if(isset($_GET['del']))
 								<table id="zctb" class="display table table-striped table-bordered table-hover" cellspacing="0" width="100%">
 									<thead>
 										<tr>
-											<th>Sno.</th>
+											<th>No.</th>
 											<th>Course Code</th>
 											<th>Course Name(Short)</th>
 											<th>Course Name(Full)</th>
-											<th>Reg Date </th>
-											<th>Action</th>
+                                            <th>Course Duration (weeks)</th>
+											<th>Last Update</th>
+											<th>Actions</th>
 										</tr>
 									</thead>
 							
@@ -87,6 +88,7 @@ if(isset($_GET['del']))
                                                 <td><?php echo $row->course_code;?></td>
                                                 <td><?php echo $row->course_sn;?></td>
                                                 <td><?php echo $row->course_fn;?></td>
+                                                <td><?php echo $row->numberOfWeeks;?></td>
                                                 <td><?php echo $row->posting_date;?></td>
                                                 <td><a href="edit-course.php?id=<?php echo $row->id;?>"><i class="fa fa-edit"></i></a>&nbsp;&nbsp;
                                                 <a href="manage-courses.php?del=<?php echo $row->id;?>" onclick="return confirm("Do you want to delete");"><i class="fa fa-close"></i></a></td>
