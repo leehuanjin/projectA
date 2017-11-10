@@ -4,14 +4,17 @@ include('includes/config.php');
 include('includes/checklogin.php');
 check_login();
 date_default_timezone_set('Asia/Kuala_Lumpur');
+include('PHPMailer/PHPMailerAutoload.php');
 
 
 
 if(isset($_POST['submit']))
 {
 
+
+
     $aid=$_SESSION['id'];
-    $ret="select * from userregistration where id=?";
+    $ret="select * from registration where id=?";
     $stmt= $mysqli->prepare($ret) ;
     $stmt->bind_param('i',$aid);
     $stmt->execute() ;//ok
@@ -19,22 +22,64 @@ if(isset($_POST['submit']))
     //$cnt=1;
     $row=$res->fetch_object();
 
+    if($row->CheckoutStatus == true)
+    {
+        echo"<script>alert('You cant check-out more than an one time! You are already CHECKED IN!');</script>";
+    }
+
+    else
+    {
+        $studentid=$row->studentid;
+        $CheckoutStatus="1";
+        $CheckinStatus="0";
+        $CheckoutDate = $_POST['CheckoutDate'];
 
 
-    $studentid=$row->studentid;
-    $CheckoutStatus="1";
-    $CheckinStatus="0";
-    $CheckoutDate = $_POST['CheckoutDate'];
+
+        $query = "update registration SET CheckoutStatus = '$CheckoutStatus', CheckinStatus = '$CheckinStatus',  CheckoutDate='$CheckoutDate'  WHERE studentid = '$studentid' ";
+        $stmt = $mysqli->prepare($query);
+        $stmt->execute();
 
 
 
-    $query = "update registration SET CheckoutStatus = '$CheckoutStatus', CheckinStatus = '$CheckinStatus',  CheckoutDate='$CheckoutDate'  WHERE studentid = '$studentid' ";
-    $stmt = $mysqli->prepare($query);
-    $stmt->execute();
+        echo"<script>alert('You have sucessfully CHECKED OUT! please kindly refer to your e-mail');</script>";
+
+        $mail = new PHPMailer;
+
+        $mail->isSMTP();                                   // Set mailer to use SMTP
+        $mail->Host = 'smtp.gmail.com';                    // Specify main and backup SMTP servers
+        $mail->SMTPAuth = true;                            // Enable SMTP authentication
+        $mail->Username = 'samuelo0otiong1996@gmail.com';          // SMTP username
+        $mail->Password = 'stck1996'; // SMTP password
+        $mail->SMTPSecure = 'tls';                         // Enable TLS encryption, `ssl` also accepted
+        $mail->Port = 587;                                 // TCP port to connect to
+
+        $mail->setFrom('samuelo0otiong1996@gmail.com', 'Swinburne');
+        $mail->addReplyTo('samuelo0otiong1996@gmail.com', 'Swinburne');
+        $mail->addAddress($email);   // Add a recipient
+        //$mail->addCC('cc@example.com');
+        //$mail->addBCC('bcc@example.com');
+
+        $mail->isHTML(true);  // Set email format to HTML
+
+        $bodyContent = '<h1>Swinburne Housing System - You have checked Out sucessfully</h1>';
+        $bodyContent .= '<p>hello</b></p>';
+        $bodyContent .= "You have received a new message. ".
+            " Here are the details:\n StudentID: $studentid \n ";
+
+        $mail->Subject = 'Email from  Swinbune housing';
+        $mail->Body    = $bodyContent;
+
+        if(!$mail->send()) {
+            echo 'Message could not be sent.';
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
+        } else {
+            echo 'Message has been sent';
+        }
+
+    }
 
 
-
-    echo"<script>alert('You have sucessfully CHECKED OUT! please kindly refer to your e-mail');</script>";
 }
 
 
@@ -147,8 +192,8 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
                                 $res=$stmt->get_result();
                                 //$cnt=1;
                                 $row=$res->fetch_object();
-                                
-                                if($row['CheckoutStatus'] == true)
+
+                                if($row->CheckoutStatus == true)
                                 { ?>
                                 <h3 style="color: red" align="left">You are alraedy CHECK OUT!</h3>
                                 <?php }
@@ -157,8 +202,8 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
                                 }			
                                 ?>	
 
-                    
-             
+
+
                                 <table class="Form_Table" border="1" width="660" cellspacing="0">
                                     <tr><h3>FACILTIES PROVIDED (Retruend Condition)</h3></tr>
                                     <tr>
@@ -302,7 +347,7 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
                                         <td class="content_black1"><b>I wish to</b></td>
                                         <td colspan="5" class="content_black1">
                                             <input type="checkbox" name="Checkout" value="Semester Break Notification" style="background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" checked onclick="getCheckout(1,this.form.Checkout)" />
-                                            <b>Semester break notification</b> 
+                                            <b>Renewal for Next Semester</b> 
                                             <br />					 
                                             <input type="checkbox" name="Checkout" value="Accommodation Rental Overpayment" style="background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" onclick="getCheckout(2,this.form.Checkout)" />
                                             <b>Accommodation rental overpayment</b> 
@@ -424,7 +469,7 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
                                             </table>
                                             <table border="0" width="580" cellpadding="0" cellspacing="2" align="center">
                                                 <tr>
-                                                    <td width="20"><input type="checkbox" name="Agree_Refund_Term" onfocus="changeInColor(this);" onblur="changeColorBack(this);" disabled="disabled" /></td>
+                                                    <td width="20"><input type="checkbox" name="Agree_Refund_Term" onfocus="changeInColor(this);" onblur="changeColorBack(this);" disabled="disabled" required /></td>
                                                     <td colspan="2" class="content_black1"> I understand that the process of refund is subject to the reasons below, and agree
                                                         not to hold the University liable for late payment of refund should the conditions
                                                         not be met &amp;/or due to other unforeseen circumstances:</td>
@@ -461,7 +506,7 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
                                     </tr>
                                     <tr>
                                         <td colspan="3" class="content_black1"><b>Check Out Date</b> &nbsp;
-                                            <input type="date" name="CheckoutDate" style="width:150px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);"  />
+                                            <input type="date" name="CheckoutDate" id="CheckoutDate" style="width:150px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" required />
                                         </td>
                                         <td colspan="3" class="content_black1"><b>Check Out Time</b> &nbsp;
                                             <select name="CheckoutTime" style="background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);">
@@ -543,7 +588,7 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
         <script src="js/chartData.js"></script>
         <script src="js/main.js"></script>
 
-
+        <script language="JavaScript" type="text/javascript" src="Checkout.js"></script>
 
 
 

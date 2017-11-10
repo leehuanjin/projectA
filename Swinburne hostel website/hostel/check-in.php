@@ -4,6 +4,9 @@ include('includes/config.php');
 include('includes/checklogin.php');
 check_login();
 date_default_timezone_set('Asia/Kuala_Lumpur');
+include('PHPMailer/PHPMailerAutoload.php');
+
+
 
 
 
@@ -20,19 +23,63 @@ if(isset($_POST['submit']))
     //$cnt=1;
     $row=$res->fetch_object();
 
-    $studentid=$row->studentid;
-    $CheckinStatus="1";
-    $CheckoutStatus="0";
+    if($row->CheckinStatus == true)
+    {
+        echo"<script>alert('You cant check-in more than an one time! You are already CHECKED IN!');</script>";
+    }
 
-    $CheckinDate = $_POST['CheckinDate'];
+    else{
+
+        $studentid=$row->studentid;
+        $CheckinStatus="1";
+        $CheckoutStatus="0";
+
+        $CheckinDate = $_POST['CheckinDate'];
 
 
-    $query = "update registration SET CheckoutStatus = '$CheckoutStatus',  CheckinStatus = '$CheckinStatus',  CheckinDate='$CheckinDate' WHERE studentid = '$studentid' ";
-    $stmt = $mysqli->prepare($query);
-    $stmt->execute();
+        $query = "update registration SET CheckoutStatus = '$CheckoutStatus',  CheckinStatus = '$CheckinStatus',  CheckinDate='$CheckinDate' WHERE studentid = '$studentid' ";
+        $stmt = $mysqli->prepare($query);
+        $stmt->execute();
 
 
-    echo"<script>alert('You have sucessfully checked in! please kindly refer to your e-mail');</script>";
+        echo"<script>alert('You have sucessfully checked in! please kindly refer to your e-mail');</script>";
+
+
+        $mail = new PHPMailer;
+
+        $mail->isSMTP();                                   // Set mailer to use SMTP
+        $mail->Host = 'smtp.gmail.com';                    // Specify main and backup SMTP servers
+        $mail->SMTPAuth = true;                            // Enable SMTP authentication
+        $mail->Username = 'samuelo0otiong1996@gmail.com';          // SMTP username
+        $mail->Password = 'stck1996'; // SMTP password
+        $mail->SMTPSecure = 'tls';                         // Enable TLS encryption, `ssl` also accepted
+        $mail->Port = 587;                                 // TCP port to connect to
+
+        $mail->setFrom('samuelo0otiong1996@gmail.com', 'SwinburneHousing');
+        $mail->addReplyTo('samuelo0otiong1996@gmail.com', 'SwinburneHousing');
+        $mail->addAddress($email);   // Add a recipient
+        //$mail->addCC('cc@example.com');
+        //$mail->addBCC('bcc@example.com');
+
+        $mail->isHTML(true);  // Set email format to HTML
+
+        $bodyContent = '<h1>Swinburne Housing System - You have checked in sucessfully</h1>';
+        $bodyContent .= '<p>hello</b></p>';
+        $bodyContent .= "You have received a new message. ".
+            " Here are the details:\n StudentID: $studentid \n ";
+
+        $mail->Subject = 'Email from Swinbune housing';
+        $mail->Body    = $bodyContent;
+
+        if(!$mail->send()) {
+            echo 'Message could not be sent.';
+            echo 'Mailer Error: ' . $mail->ErrorInfo;
+        } else {
+            echo 'Message has been sent';
+        }
+
+
+    }
 }
 
 
@@ -142,6 +189,8 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
 
 
                                 <?php
+
+
                                 $aid=$_SESSION['id'];
                                 $ret="select * from registration where id=?";
                                 $stmt= $mysqli->prepare($ret) ;
@@ -150,9 +199,8 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
                                 $res=$stmt->get_result();
                                 //$cnt=1;
                                 $row=$res->fetch_object();
-                           
-                                $CheckinStatus2 = $row['CheckinStatus'];
-                                if($CheckinStatus2 == true)
+
+                                if($row->CheckinStatus == 1)
                                 { ?>
                                 <h3 style="color: red" align="left">You are alraedy CHECK IN!</h3>
                                 <?php }
@@ -173,7 +221,7 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
                                     <tr>
                                         <td>1</td>
                                         <td>Bed</td>
-                                        <td><input type="text" name="Bed" style="background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="100" /></td>
+                                        <td><input type="text" name="Bed" id="Bed" style="background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="100" /></td>
                                     </tr>
                                     <tr>
                                         <td>2</td>
@@ -243,9 +291,13 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
                                     $stmt->execute() ;//ok
                                     $res=$stmt->get_result();
                                     //$cnt=1;
+
+
                                     while($row=$res->fetch_object())
                                     {
                                     ?>
+
+
                                     <tr>
                                         <td width="160" class="content_black1">Student Name</td>
                                         <td width="440" colspan="5" class="content_black1"><input type="text" name="FullName" style="width:450px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="100" value="<?php echo $row->firstName;?>" readonly    /></td>
