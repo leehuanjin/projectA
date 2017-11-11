@@ -5,73 +5,116 @@ include('includes/checklogin.php');
 include('PHPMailer/PHPMailerAutoload.php');
 check_login();
 //code for registration
+
+
 if(isset($_POST['submit']))
 {
-    $roomno=$_POST['room'];
-    $seater=$_POST['seater'];
-    $feespm=$_POST['fpm'];
-  
-    $stayfrom=$_POST['stayf'];
-    $duration=$_POST['duration'];
-    $course=$_POST['course'];
-    //$studentid=$_POST['studentid'];
-    //$fname=$_POST['fname'];
-    //$mname=$_POST['mname'];
-    //$lname=$_POST['lname'];
-    //$gender=$_POST['gender'];
-    //$contactno=$_POST['contact'];
-    //$emailid=$_POST['email'];
-    $emcntno=$_POST['econtact'];
-    $gurname=$_POST['gname'];
-    $gurrelation=$_POST['grelation'];
-    $gurcntno=$_POST['gcontact'];
-    $caddress=$_POST['address'];
-    $ccity=$_POST['city'];
-    $cstate=$_POST['state'];
-    $cpincode=$_POST['pincode'];
-    $paddress=$_POST['paddress'];
-    $pcity=$_POST['pcity'];
-    $pstate=$_POST['pstate'];
-    $ppincode=$_POST['ppincode'];
-    $query="insert into  registration(roomno,seater,feespm,stayfrom,duration,course,studentid,firstName,middleName,lastName,gender,contactno,emailid,egycontactno,guardianName,guardianRelation,guardianContactno,corresAddress,corresCIty,corresState,corresPincode,pmntAddress,pmntCity,pmnatetState,pmntPincode) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-    $stmt = $mysqli->prepare($query);
-    $rc=$stmt->bind_param('iiisisissssisississsisssi',$roomno,$seater,$feespm,$stayfrom,$duration,$course,$studentid,$fname,$mname,$lname,$gender,$contactno,$emailid,$emcntno,$gurname,$gurrelation,$gurcntno,$caddress,$ccity,$cstate,$cpincode,$paddress,$pcity,$pstate,$ppincode);
-    $stmt->execute();
-    echo"<script>alert('Student Succssfully register');</script>";
-    
-    
-    
-    $mail = new PHPMailer;
+    $aid=$_SESSION['id'];
+    $ret="select * from userregistration where id=?";
+    $stmt= $mysqli->prepare($ret) ;
+    $stmt->bind_param('i',$aid);
+    $stmt->execute() ;//ok
+    $res=$stmt->get_result();
+    //$cnt=1;
 
-    $mail->isSMTP();                                   // Set mailer to use SMTP
-    $mail->Host = 'smtp.gmail.com';                    // Specify main and backup SMTP servers
-    $mail->SMTPAuth = true;                            // Enable SMTP authentication
-    $mail->Username = 'samuelo0otiong1996@gmail.com';          // SMTP username
-    $mail->Password = 'stck1996'; // SMTP password
-    $mail->SMTPSecure = 'tls';                         // Enable TLS encryption, `ssl` also accepted
-    $mail->Port = 587;                                 // TCP port to connect to
+    while ($row=$res->fetch_object()) {
 
-    $mail->setFrom('samuelo0otiong1996@gmail.com', 'Samuel');
-    $mail->addReplyTo('samuelo0otiong1996@gmail.com', 'Samuel');
-    $mail->addAddress('samuel_tiong@hotmail.com');   // Add a recipient
-    //$mail->addCC('cc@example.com');
-    //$mail->addBCC('bcc@example.com');
+        if ($row->BookingFeeStatus == false)
+        {
+            echo"<script>alert('You cant make a booking! You have to pay booking fee first!');</script>";
+        }
 
-    $mail->isHTML(true);  // Set email format to HTML
+        else if ($row->BookedStatus == true)
+        {
+            echo"<script>alert('You cant make a booking! You are already booked!');</script>";
+        }
 
-    $bodyContent = '<h1>How to Send Email using PHP in Localhost by Sammy</h1>';
-    $bodyContent .= '<p>hello</b></p>';
-    $bodyContent .= "You have received a new message. ".
-        " Here are the details:\n Room: $roomno \n ";
+        else{
 
-    $mail->Subject = 'Email from Localhost by Sammy';
-    $mail->Body    = $bodyContent;
 
-    if(!$mail->send()) {
-        echo 'Message could not be sent.';
-        echo 'Mailer Error: ' . $mail->ErrorInfo;
-    } else {
-        echo 'Message has been sent';
+
+            $roomno=$_POST['room'];
+            $seater=$_POST['seater'];
+            $feespm=$_POST['fpm'];
+
+            $stayfrom=$_POST['stayf'];
+            $duration=$_POST['duration'];
+            $course=$_POST['course'];
+            $studentid=$_POST['studentid'];
+            $fname=$_POST['fname'];
+            $mname=$_POST['mname'];
+            $lname=$_POST['lname'];
+            $gender=$_POST['gender'];
+            $contactno=$_POST['contact'];
+            $emailid=$_POST['email'];
+            $emcntno=$_POST['econtact'];
+            $gurname=$_POST['gname'];
+            $gurrelation=$_POST['grelation'];
+            $gurcntno=$_POST['gcontact'];
+            $caddress=$_POST['address'];
+            $ccity=$_POST['city'];
+            $cstate=$_POST['state'];
+            $cpincode=$_POST['pincode'];
+            $paddress=$_POST['paddress'];
+            $pcity=$_POST['pcity'];
+            $pstate=$_POST['pstate'];
+            $ppincode=$_POST['ppincode'];
+            $PreferPerson = $_POST['PreferPerson'];
+            
+            
+            $query="insert into  registration(roomno,seater,feespm,stayfrom,duration,course,studentid,firstName,middleName,lastName,gender,contactno,emailid,egycontactno,guardianName,guardianRelation,guardianContactno,corresAddress,corresCIty,corresState,corresPincode,pmntAddress,pmntCity,pmnatetState,pmntPincode,PreferPerson) values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+            $stmt = $mysqli->prepare($query);
+            $rc=$stmt->bind_param('iiisisissssisississsisssis',$roomno,$seater,$feespm,$stayfrom,$duration,$course,$studentid,$fname,$mname,$lname,$gender,$contactno,$emailid,$emcntno,$gurname,$gurrelation,$gurcntno,$caddress,$ccity,$cstate,$cpincode,$paddress,$pcity,$pstate,$ppincode,$PreferPerson);
+            $stmt->execute();
+
+
+            $query2 = "update userregistration SET BookedStatus = '1' WHERE studentid = '$row->studentid' ";
+            $stmt2 = $mysqli->prepare($query2);
+            $stmt2->execute();
+
+
+            echo"<script>alert('Student Succssfully register');</script>";
+
+
+
+            $mail = new PHPMailer;
+
+            $mail->isSMTP();                                   // Set mailer to use SMTP
+            $mail->Host = 'smtp.gmail.com';                    // Specify main and backup SMTP servers
+            $mail->SMTPAuth = true;                            // Enable SMTP authentication
+            $mail->Username = 'samuelo0otiong1996@gmail.com';          // SMTP username
+            $mail->Password = 'stck1996'; // SMTP password
+            $mail->SMTPSecure = 'tls';                         // Enable TLS encryption, `ssl` also accepted
+            $mail->Port = 587;                                 // TCP port to connect to
+
+            $mail->setFrom('samuelo0otiong1996@gmail.com', 'SwinburneHousing');
+            $mail->addReplyTo('samuelo0otiong1996@gmail.com', 'SwinburneHousing');
+            $mail->addAddress($email);   // Add a recipient
+            //$mail->addCC('cc@example.com');
+            //$mail->addBCC('bcc@example.com');
+
+            $mail->isHTML(true);  // Set email format to HTML
+
+            $bodyContent = '<h1>Swinburne Hosuing - your booking has been successfully made</h1>';
+            $bodyContent .= '<p>hello</b></p>';
+            $bodyContent .= "You have received a new message. ".
+                " Here are the details:\n Room: $roomno \n ";
+
+            $mail->Subject = 'Email from  Swinbune housing';
+            $mail->Body    = $bodyContent;
+
+            if(!$mail->send()) {
+                echo 'Message could not be sent.';
+                echo 'Mailer Error: ' . $mail->ErrorInfo;
+            } else {
+                echo 'Message has been sent';
+            }
+
+
+
+
+
+        }
     }
 }
 ?>
@@ -132,6 +175,8 @@ if(isset($_POST['submit']))
         <link href="../wp-content/themes/swinburne-sarawak-byhds/magnific-popup.css" media="screen" rel="stylesheet" type="text/css"> 
 
 
+        <script src="https://www.paypalobjects.com/js/external/apdg.js" type="text/javascript"></script>
+
 
     </head>
     <body>
@@ -173,7 +218,7 @@ if(isset($_POST['submit']))
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Room Type </label>
+                                                    <label class="col-sm-2 control-label">Room Type: </label>
                                                     <div class="col-sm-8">
                                                         <select name="room" id="room"class="form-control"  onChange="getSeater(this.value);" onBlur="checkAvailability()" required> 
                                                             <option value="">Select Room</option>
@@ -184,7 +229,7 @@ if(isset($_POST['submit']))
                                                             while($row=$res->fetch_object())
                                                             {
                                                             ?>
-                                                            <option value="<?php echo $row->room_no;?>"> <?php echo $row->RoomType;?></option>
+                                                            <option value="<?php echo $row->room_no;?>"> <?php echo $row->room_no;?></option>
                                                             <?php } ?>
                                                         </select> 
                                                         <span id="room-availability-status" style="font-size:12px;"></span>
@@ -193,16 +238,17 @@ if(isset($_POST['submit']))
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Single or Sharing</label>
+                                                    <label class="col-sm-2 control-label">Single or Sharing:</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" name="seater" id="seater"  class="form-control"  >
+                                                        <input type="text" name="seater" id="seater"  class="form-control"  readonly>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Fees Per Week</label>
+                                                    <label class="col-sm-2 control-label">Fees Per Week:</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" name="fpm" id="fpm"  class="form-control" >
+                                                        <input type="text" name="fpm" id="fpm"  class="form-control" readonly>
+
                                                     </div>
                                                 </div>
 
@@ -211,14 +257,14 @@ if(isset($_POST['submit']))
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Stay From</label>
                                                     <div class="col-sm-8">
-                                                        <input type="date" name="stayf" id="stayf"  class="form-control" >
+                                                        <input type="date" name="stayf" id="stayf"  class="form-control" required>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label">Duration:</label>
                                                     <div class="col-sm-8">
-                                                        <select name="duration" id="duration" class="form-control">
+                                                        <select name="duration" id="duration" class="form-control" required>
                                                             <option value="">Select Duration in weeks</option>
                                                             <option value="7">7</option>
                                                             <option value="8">8</option>
@@ -232,9 +278,9 @@ if(isset($_POST['submit']))
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Total Amount</label>
+                                                    <label class="col-sm-2 control-label">Total Amount:</label>
                                                     <div class="col-sm-8">
-                                                        <input type="text" name="ta" id="ta"  class="result form-control" >
+                                                        <input type="text" name="ta" id="ta"  class="result form-control" readonly>
                                                     </div>
                                                 </div>
 
@@ -444,11 +490,45 @@ if(isset($_POST['submit']))
                                                     </div>
                                                 </div>	
 
+                                                <div class="form-group">
+                                                    <label class="col-sm-3 control-label"><h4 style="color: green" align="left">Accommodation preference </h4> </label>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-sm-2 control-label">i would prefer to share with : </label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="PreferPerson" id="PreferPerson"  class="form-control" required="required">
+                                                    </div>
+                                                </div>	
+
 
                                                 <div class="col-sm-6 col-sm-offset-4">
                                                     <button class="btn btn-default" type="submit">Cancel</button>
-                                                    <input type="submit" name="submit" Value="Register" class="btn btn-primary">
+                                                    <input type="submit" name="submit" Value="Book Now" class="btn btn-primary">
                                                 </div>
+
+                                            </form>
+
+                                            <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+
+
+                                                <input type="hidden" name="cmd" value="_xclick">
+
+                                                <input type="hidden" name="business" value="swinburnehousing@gmail.com">
+
+                                                <input type="hidden" name="item_name" value="Booking fee">
+
+                                                <input type="hidden" name="item_number" value="0001">
+
+                                                <input type="hidden" name="currency_code" value="MYR">
+
+                                                <input type="hidden" name="amount" value="500">
+
+                                                <input type="hidden" name="custom" value="">
+
+                                                <input type="hidden" name="charset" value="UTF-8">
+
+                                                <input type="submit" id ="submitBtn"value="Pay Rm500 Booking fee" class="btn btn-primary" onclick="submitform()">
                                             </form>
 
                                         </div>
@@ -460,65 +540,69 @@ if(isset($_POST['submit']))
                 </div>
             </div>
         </div> 	
-        </div>
-    </div>
-</div>
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap-select.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/jquery.dataTables.min.js"></script>
-<script src="js/dataTables.bootstrap.min.js"></script>
-<script src="js/Chart.min.js"></script>
-<script src="js/fileinput.js"></script>
-<script src="js/chartData.js"></script>
-<script src="js/main.js"></script>
-</body>
-<script type="text/javascript">
-    $(document).ready(function(){
-        $('input[type="checkbox"]').click(function(){
-            if($(this).prop("checked") == true){
-                $('#paddress').val( $('#address').val() );
-                $('#pcity').val( $('#city').val() );
-                $('#pstate').val( $('#state').val() );
-                $('#ppincode').val( $('#pincode').val() );
-            } 
 
-        });
-    });
-</script>
-<script>
-    function checkAvailability() {
-        $("#loaderIcon").show();
-        jQuery.ajax({
-            url: "check_availability.php",
-            data:'roomno='+$("#room").val(),
-            type: "POST",
-            success:function(data){
-                $("#room-availability-status").html(data);
-                $("#loaderIcon").hide();
-            },
-            error:function (){}
-        });
-    }
-</script>
+        <script type="text/javascript" charset="utf-8">
+            var dgFlowMini = new PAYPAL.apps.DGFlowMini({trigger: 'submitBtn'});
+        </script>
 
 
-<script type="text/javascript">
 
-    $(document).ready(function() {
-        $('#duration').keyup(function(){
-            var fetch_dbid = $(this).val();
-            $.ajax({
-                type:'POST',
-                url :"ins-amt.php?action=userid",
-                data :{userinfo:fetch_dbid},
-                success:function(data){
-                    $('.result').val(data);
-                }
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap-select.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.dataTables.min.js"></script>
+        <script src="js/dataTables.bootstrap.min.js"></script>
+        <script src="js/Chart.min.js"></script>
+        <script src="js/fileinput.js"></script>
+        <script src="js/chartData.js"></script>
+        <script src="js/main.js"></script>
+    </body>
+    <script type="text/javascript">
+        $(document).ready(function(){
+            $('input[type="checkbox"]').click(function(){
+                if($(this).prop("checked") == true){
+                    $('#paddress').val( $('#address').val() );
+                    $('#pcity').val( $('#city').val() );
+                    $('#pstate').val( $('#state').val() );
+                    $('#ppincode').val( $('#pincode').val() );
+                } 
+
             });
+        });
+    </script>
+    <script>
+        function checkAvailability() {
+            $("#loaderIcon").show();
+            jQuery.ajax({
+                url: "check_availability.php",
+                data:'roomno='+$("#room").val(),
+                type: "POST",
+                success:function(data){
+                    $("#room-availability-status").html(data);
+                    $("#loaderIcon").hide();
+                },
+                error:function (){}
+            });
+        }
+    </script>
 
 
-        })});
-</script>
+    <script type="text/javascript">
+
+        $(document).ready(function() {
+            $('#duration').keyup(function(){
+                var fetch_dbid = $(this).val();
+                $.ajax({
+                    type:'POST',
+                    url :"ins-amt.php?action=userid",
+                    data :{userinfo:fetch_dbid},
+                    success:function(data){
+                        $('.result').val(data);
+                    }
+                });
+
+
+            })});
+    </script>
 
 </html>
