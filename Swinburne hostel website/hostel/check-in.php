@@ -7,15 +7,25 @@ date_default_timezone_set('Asia/Kuala_Lumpur');
 include('PHPMailer/PHPMailerAutoload.php');
 
 
-
-
+$aid=$_SESSION['id'];
+$ret="select * from userregistration where id=?";
+$stmt= $mysqli->prepare($ret) ;
+$stmt->bind_param('i',$aid);
+$stmt->execute() ;//ok
+$res=$stmt->get_result();
+//$cnt=1;
+while($row=$res->fetch_object())
+{  
+    $_SESSION['studentid'] = $row->studentid;    
+}
 
 if(isset($_POST['submit']))
 {
 
 
-    $aid=$_SESSION['id'];
-    $ret="select * from registration where id=?";
+    $aid=$_SESSION['studentid'];
+
+    $ret="select * from registration where studentid=?";
     $stmt= $mysqli->prepare($ret) ;
     $stmt->bind_param('i',$aid);
     $stmt->execute() ;//ok
@@ -25,19 +35,20 @@ if(isset($_POST['submit']))
 
     if($row->CheckinStatus == true)
     {
-        echo"<script>alert('You cant check-in more than an one time! You are already CHECKED IN!');</script>";
+        echo"<script>alert('You cant check-out more than an one time! You are already CHECKED in!');</script>";
     }
 
-    else{
 
+    else{
         $studentid=$row->studentid;
+        $email=$row->emailid;
         $CheckinStatus="1";
         $CheckoutStatus="0";
 
         $CheckinDate = $_POST['CheckinDate'];
 
 
-        $query = "update registration SET CheckoutStatus = '$CheckoutStatus',  CheckinStatus = '$CheckinStatus',  CheckinDate='$CheckinDate' WHERE studentid = '$studentid' ";
+        $query = "update registration SET CheckoutStatus = '$CheckoutStatus',  CheckinStatus = '1',  CheckinDate='$CheckinDate' WHERE studentid = '$studentid' ";
         $stmt = $mysqli->prepare($query);
         $stmt->execute();
 
@@ -78,10 +89,10 @@ if(isset($_POST['submit']))
             echo 'Message has been sent';
         }
 
-
     }
-}
 
+
+}
 
 
 
@@ -190,15 +201,15 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
 
                                 <?php
 
-
-                                $aid=$_SESSION['id'];
-                                $ret="select * from registration where id=?";
+                                $aid=$_SESSION['studentid'];
+                                $ret="select * from registration where studentid=?";
                                 $stmt= $mysqli->prepare($ret) ;
                                 $stmt->bind_param('i',$aid);
                                 $stmt->execute() ;//ok
                                 $res=$stmt->get_result();
                                 //$cnt=1;
                                 $row=$res->fetch_object();
+
 
                                 if($row->CheckinStatus == 1)
                                 { ?>
@@ -292,11 +303,10 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
                                     $res=$stmt->get_result();
                                     //$cnt=1;
 
-
                                     while($row=$res->fetch_object())
-                                    {
-                                    ?>
+                                    {  
 
+                                    ?>
 
                                     <tr>
                                         <td width="160" class="content_black1">Student Name</td>

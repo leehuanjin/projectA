@@ -8,13 +8,27 @@ include('PHPMailer/PHPMailerAutoload.php');
 
 
 
+$aid=$_SESSION['id'];
+$ret="select * from userregistration where id=?";
+$stmt= $mysqli->prepare($ret) ;
+$stmt->bind_param('i',$aid);
+$stmt->execute() ;//ok
+$res=$stmt->get_result();
+//$cnt=1;
+while($row=$res->fetch_object())
+{  
+    $_SESSION['studentid'] = $row->studentid;    
+}
+
+
+
+
 if(isset($_POST['submit']))
 {
 
 
-
-    $aid=$_SESSION['id'];
-    $ret="select * from registration where id=?";
+    $aid=$_SESSION['studentid'];
+    $ret="select * from registration where studentid=?";
     $stmt= $mysqli->prepare($ret) ;
     $stmt->bind_param('i',$aid);
     $stmt->execute() ;//ok
@@ -24,12 +38,13 @@ if(isset($_POST['submit']))
 
     if($row->CheckoutStatus == true)
     {
-        echo"<script>alert('You cant check-out more than an one time! You are already CHECKED IN!');</script>";
+        echo"<script>alert('You cant check-out more than an one time! You are already CHECKED OUT!');</script>";
     }
 
     else
     {
         $studentid=$row->studentid;
+        $email = $row->emailid;
         $CheckoutStatus="1";
         $CheckinStatus="0";
         $CheckoutDate = $_POST['CheckoutDate'];
@@ -184,8 +199,8 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
                             <form action="" method="post" name="CheckoutForm" id="CheckoutForm" onsubmit="return checkEmpty();">
 
                                 <?php
-                                $aid=$_SESSION['id'];
-                                $ret="select * from registration where id=?";
+                                $aid=$_SESSION['studentid'];
+                                $ret="select * from registration where studentid=?";
                                 $stmt= $mysqli->prepare($ret) ;
                                 $stmt->bind_param('i',$aid);
                                 $stmt->execute() ;//ok
@@ -286,6 +301,7 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
                                     $stmt->execute() ;//ok
                                     $res=$stmt->get_result();
                                     //$cnt=1;
+
                                     while($row=$res->fetch_object())
                                     {
                                     ?>
