@@ -46,7 +46,7 @@ check_login();
         <link href="../wp-content/themes/swinburne-sarawak-byhds/isotope.css" media="screen" rel="stylesheet" type="text/css">
         <link href="../wp-content/themes/swinburne-sarawak-byhds/magnific-popup.css" media="screen" rel="stylesheet" type="text/css"> 
 
-
+        <script src="https://www.paypalobjects.com/js/external/apdg.js" type="text/javascript"></script>
 
     </head>
 
@@ -65,6 +65,7 @@ check_login();
                             <h2 class="page-title">Rooms Details</h2>
                             <div class="panel panel-default">
                                 <div class="panel-heading">All Room Details</div>
+
                                 <div class="panel-body">
                                     <table id="zctb" class="table table-bordered " cellspacing="0" width="100%">
 
@@ -91,30 +92,29 @@ check_login();
                                             </tr>
 
 
-
                                             <tr>
                                                 <td><b>Room no :</b></td>
                                                 <td><?php echo $row->roomno;?></td>
-                                                <td><b>Seater :</b></td>
+                                                <td><b>Single or Twin:</b></td>
                                                 <td><?php echo $row->seater;?></td>
                                                 <td><b>Fees PM :</b></td>
                                                 <td><?php echo $fpm=$row->feespm;?></td>
                                             </tr>
 
                                             <tr>
-                                 
+
                                                 <td><b>Stay From :</b></td>
                                                 <td><?php echo $row->stayfrom;?></td>
                                                 <td><b>Duration:</b></td>
-                                                <td><?php echo $dr=$row->duration;?> Months</td>
+                                                <td><?php echo $dr=$row->duration;?> Weeks</td>
                                             </tr>
 
                                             <tr>
                                                 <td colspan="6"><b>Total Fee : 
                                                     <?php 
                                                 {
-                                                    echo $dr*$fpm;
-                                                }
+                                                echo $dr*$fpm;
+                                            }
                                                     ?></b></td>
                                             </tr>
                                             <tr>
@@ -125,7 +125,7 @@ check_login();
                                                 <td><b>Reg No. :</b></td>
                                                 <td><?php echo $row->studentid;?></td>
                                                 <td><b>Full Name :</b></td>
-                                                <td><?php echo $row->firstName;?><?php echo $row->middleName;?><?php echo $row->lastName;?></td>
+                                                <td><?php echo $row->firstName;?>&nbsp;<?php echo $row->middleName;?>&nbsp;<?php echo $row->lastName;?></td>
                                                 <td><b>Email :</b></td>
                                                 <td><?php echo $row->emailid;?></td>
                                             </tr>
@@ -182,6 +182,30 @@ check_login();
                                             } ?>
                                         </tbody>
                                     </table>
+
+                                    <form action="https://www.sandbox.paypal.com/cgi-bin/webscr" method="post">
+
+
+                                        <input type="hidden" name="cmd" value="_xclick">
+
+                                        <input type="hidden" name="business" value="swinburnehousing@gmail.com">
+
+                                        <input type="hidden" name="item_name" value="Total room rental fee">
+
+                                        <input type="hidden" name="item_number" value="0001">
+
+                                        <input type="hidden" name="currency_code" value="MYR">
+
+                                        <input type="hidden" name="amount" value="<?php echo $dr*$fpm;?>">
+
+                                        <input type="hidden" name="custom" value="">
+
+                                        <input type="hidden" name="charset" value="UTF-8">
+
+                                        <input type="submit" id ="submitBtn"value="Pay Total fee: <?php echo $dr*$fpm;?>"
+                                               class="btn btn-primary" onclick="submitform()">
+                                    </form>
+
                                 </div>
                             </div>
                         </div>
@@ -189,6 +213,11 @@ check_login();
                 </div>
             </div>
         </div>
+        
+        <script type="text/javascript" charset="utf-8">
+            var dgFlowMini = new PAYPAL.apps.DGFlowMini({trigger: 'submitBtn'});
+        </script>
+
 
         <!-- Loading Scripts -->
         <script src="js/jquery.min.js"></script>
