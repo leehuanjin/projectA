@@ -46,9 +46,9 @@ if(isset($_POST['submit']))
         $CheckoutStatus="0";
 
         $CheckinDate = $_POST['CheckinDate'];
+        $AcessCardNum = $_POST['AcessCardNum'];
 
-
-        $query = "update registration SET CheckoutStatus = '$CheckoutStatus',  CheckinStatus = '1',  CheckinDate='$CheckinDate' WHERE studentid = '$studentid' ";
+        $query = "update registration SET CheckoutStatus = '$CheckoutStatus',  CheckinStatus = '1',  CheckinDate='$CheckinDate', AcessCardNum='$AcessCardNum' WHERE studentid = '$studentid' ";
         $stmt = $mysqli->prepare($query);
         $stmt->execute();
 
@@ -139,7 +139,6 @@ if(isset($_POST['submit']))
         </script>
 
 
-
         <script language="JavaScript" type="text/javascript" src="Checkout.js"></script>
 
         <!--<link media="only screen and (max-device-width: 480px)" 
@@ -177,6 +176,18 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
     </head>
 
     <body>
@@ -197,7 +208,6 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
 
                             <p class="title">&nbsp;</p>
                             <form action="" method="post" name="CheckoutForm" id="CheckoutForm" onsubmit="return checkEmpty();" >
-
 
                                 <?php
 
@@ -328,7 +338,7 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
                                     <?php } ?>
                                     <tr>
                                         <td class="content_black1">Building</td>
-                                        <td colspan="5" class="content_black1">
+                                        <td colspan="5" class="content_black1" required>
                                             <input type="checkbox" name="Location" value="Male Hostel" style="background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" onclick="getLocation(1,this.form.Location)" />
                                             Male Hostel
                                             &nbsp;&nbsp;&nbsp;
@@ -355,7 +365,7 @@ href="local/css/iphone.css" type="text/css" rel="stylesheet" />-->
 
 
                                         <td width="125" class="content_black1"><center>Acess Card Number</center></td>
-                                        <td width="90" class="content_black1"><input type="text" name="AcessCardNum" style="width:60px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="3" onkeyup="filterNonNumeric(this)" /></td>
+                                        <td width="90" class="content_black1"><input type="text" name="AcessCardNum" id="AcessCardNum" style="width:60px;background-color:#FFFFAA;" onfocus="changeInColor(this);" onblur="changeColorBack(this);" maxlength="3" onkeyup="filterNonNumeric(this)" required /></td>
 
                                     </tr>
 
