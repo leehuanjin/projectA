@@ -173,7 +173,7 @@ if(isset($_POST['submit']))
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Room no. </label>
+                                                    <label class="col-sm-2 control-label">Room Type </label>
                                                     <div class="col-sm-8">
                                                         <select name="room" id="room"class="form-control"  onChange="getSeater(this.value);" onBlur="checkAvailability()" required> 
                                                             <option value="">Select Room</option>
@@ -184,7 +184,7 @@ if(isset($_POST['submit']))
                                                             while($row=$res->fetch_object())
                                                             {
                                                             ?>
-                                                            <option value="<?php echo $row->room_no;?>"> <?php echo $row->room_no;?></option>
+                                                            <option value="<?php echo $row->room_no;?>"> <?php echo $row->RoomType;?></option>
                                                             <?php } ?>
                                                         </select> 
                                                         <span id="room-availability-status" style="font-size:12px;"></span>
@@ -193,14 +193,14 @@ if(isset($_POST['submit']))
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Room type 1-single / 2- twin</label>
+                                                    <label class="col-sm-2 control-label">Single or Sharing</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="seater" id="seater"  class="form-control"  >
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Fees Per Month</label>
+                                                    <label class="col-sm-2 control-label">Fees Per Week</label>
                                                     <div class="col-sm-8">
                                                         <input type="text" name="fpm" id="fpm"  class="form-control" >
                                                     </div>
@@ -216,22 +216,17 @@ if(isset($_POST['submit']))
                                                 </div>
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Duration</label>
+                                                    <label class="col-sm-2 control-label">Duration:</label>
                                                     <div class="col-sm-8">
                                                         <select name="duration" id="duration" class="form-control">
-                                                            <option value="">Select Duration in Month</option>
-                                                            <option value="1">1</option>
-                                                            <option value="2">2</option>
-                                                            <option value="3">3</option>
-                                                            <option value="4">4</option>
-                                                            <option value="5">5</option>
-                                                            <option value="6">6</option>
+                                                            <option value="">Select Duration in weeks</option>
                                                             <option value="7">7</option>
                                                             <option value="8">8</option>
                                                             <option value="9">9</option>
                                                             <option value="10">10</option>
                                                             <option value="11">11</option>
-                                                            <option value="12">12</option>
+                                                            <option value="16">16</option>
+                                                            <option value="17">17</option>
                                                         </select>
                                                     </div>
                                                 </div>
