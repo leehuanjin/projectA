@@ -6,6 +6,9 @@ include('PHPMailer/PHPMailerAutoload.php');
 check_login();
 //code for registration
 
+$duration2=$_POST['duration'];
+
+
 
 if(isset($_POST['submit']))
 {
@@ -19,12 +22,13 @@ if(isset($_POST['submit']))
 
     while ($row=$res->fetch_object()) {
 
+        /*
         if ($row->BookingFeeStatus == false)
         {
             echo"<script>alert('You cant make a booking! You have to pay booking fee first!');</script>";
         }
-
-        else if ($row->BookedStatus == true)
+*/
+        if ($row->BookedStatus == true)
         {
             echo"<script>alert('You cant make a booking! You are already booked!');</script>";
         }
@@ -73,7 +77,7 @@ if(isset($_POST['submit']))
             $stmt2->execute();
 
 
-            echo"<script>alert('Student Succssfully register');</script>";
+            echo"<script>alert('Student Succssfully register Please kindly refer to your email');</script>";
 
 
 
@@ -89,7 +93,7 @@ if(isset($_POST['submit']))
 
             $mail->setFrom('samuelo0otiong1996@gmail.com', 'SwinburneHousing');
             $mail->addReplyTo('samuelo0otiong1996@gmail.com', 'SwinburneHousing');
-            $mail->addAddress($email);   // Add a recipient
+            $mail->addAddress($emailid);   // Add a recipient
             //$mail->addCC('cc@example.com');
             //$mail->addBCC('bcc@example.com');
 
@@ -98,7 +102,8 @@ if(isset($_POST['submit']))
             $bodyContent = '<h1>Swinburne Hosuing - your booking has been successfully made</h1>';
             $bodyContent .= '<p>hello</b></p>';
             $bodyContent .= "You have received a new message. ".
-                " Here are the details:\n Room: $roomno \n ";
+                " Here are the details:\n Room: $roomno \n ".
+                "You can Now pay the total rental fee under Room Details category with button";
 
             $mail->Subject = 'Email from  Swinbune housing';
             $mail->Body    = $bodyContent;
@@ -229,7 +234,7 @@ if(isset($_POST['submit']))
                                                             while($row=$res->fetch_object())
                                                             {
                                                             ?>
-                                                            <option value="<?php echo $row->room_no;?>"> <?php echo $row->room_no;?></option>
+                                                            <option value="<?php echo $row->room_no;?>"> <?php echo $row->RoomType;?></option>
                                                             <?php } ?>
                                                         </select> 
                                                         <span id="room-availability-status" style="font-size:12px;"></span>
@@ -260,9 +265,12 @@ if(isset($_POST['submit']))
                                                         <input type="date" name="stayf" id="stayf"  class="form-control" required>
                                                     </div>
                                                 </div>
-
+                                                
+                                                
                                                 <div class="form-group">
+                                                    
                                                     <label class="col-sm-2 control-label">Duration:</label>
+                                                    
                                                     <div class="col-sm-8">
                                                         <select name="duration" id="duration" class="form-control" required>
                                                             <option value="">Select Duration in weeks</option>
@@ -273,16 +281,22 @@ if(isset($_POST['submit']))
                                                             <option value="11">11</option>
                                                             <option value="16">16</option>
                                                             <option value="17">17</option>
+                                                    
                                                         </select>
+                                                        
+                                                    </div>
+                                                   
+                                                </div>
+                                                   
+                                           
+                                                 <div class="form-group">
+                                                    <label class="col-sm-2 control-label">Total Amount:</label>
+                                                    <div class="col-sm-8">
+                                                        <input type="text" name="ta" id="ta" value=""  class="result form-control" readonly>
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group">
-                                                    <label class="col-sm-2 control-label">Total Amount:</label>
-                                                    <div class="col-sm-8">
-                                                        <input type="text" name="ta" id="ta"  class="result form-control" readonly>
-                                                    </div>
-                                                </div>
+                                                
 
                                                 <div class="form-group">
                                                     <label class="col-sm-2 control-label"><h4 style="color: green" align="left">Personal info </h4> </label>
@@ -397,7 +411,7 @@ if(isset($_POST['submit']))
                                                 </div>	
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-3 control-label"><h4 style="color: green" align="left">Correspondense Address </h4> </label>
+                                                    <label class="col-sm-3 control-label"><h4 style="color: green" align="left">Current Address </h4> </label>
                                                 </div>
 
 
@@ -445,7 +459,8 @@ if(isset($_POST['submit']))
 
 
                                                 <div class="form-group">
-                                                    <label class="col-sm-5 control-label">Permanent Address same as Correspondense address : </label>
+                                                    <label class="col-sm-5 control-label">Permanent Address same as Current address : </label>
+                                                  
                                                     <div class="col-sm-4">
                                                         <input type="checkbox" name="adcheck" value="1"/>
                                                     </div>
